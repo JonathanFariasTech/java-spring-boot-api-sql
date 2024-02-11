@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.jtech.springbootapisql.models.User;
 import br.com.jtech.springbootapisql.repositories.UserRepository;
 
+@SuppressWarnings("null")
 @Service
 public class UserService {
 
