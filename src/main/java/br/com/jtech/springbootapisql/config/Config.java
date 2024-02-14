@@ -1,16 +1,17 @@
 package br.com.jtech.springbootapisql.config;
 
-import java.time.Instant;
-import java.util.Arrays;
-
+import br.com.jtech.springbootapisql.models.Category;
+import br.com.jtech.springbootapisql.models.Order;
+import br.com.jtech.springbootapisql.models.User;
+import br.com.jtech.springbootapisql.repositories.CategoryRepository;
+import br.com.jtech.springbootapisql.repositories.OrderRepository;
+import br.com.jtech.springbootapisql.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.jtech.springbootapisql.models.Order;
-import br.com.jtech.springbootapisql.models.User;
-import br.com.jtech.springbootapisql.repositories.OrderRepository;
-import br.com.jtech.springbootapisql.repositories.UserRepository;
+import java.time.Instant;
+import java.util.Arrays;
 
 @Configuration
 public class Config implements CommandLineRunner {
@@ -20,9 +21,19 @@ public class Config implements CommandLineRunner {
     @Autowired
     private OrderRepository orderRepository;
 
-    @SuppressWarnings("null")
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+
         User u1 = new User("Maria Brown", "maria@gmail.com", "988888888", "123456");
         User u2 = new User("Alex Green", "alex@gmail.com", "977777777", "123456");
 
