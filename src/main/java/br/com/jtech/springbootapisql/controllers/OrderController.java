@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jtech.springbootapisql.models.Order;
 import br.com.jtech.springbootapisql.services.OrderService;
 
-
-
 @RestController
-@RequestMapping(value = "/orders")
+@RequestMapping("/orders")
 public class OrderController {
     
     @Autowired
@@ -28,31 +27,35 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Order> findAll(){
+    public List<Order> findAll() {
         return orderService.findAll();
     }
 
-    @GetMapping(value = "/byId/{id}")
+    @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Order findById(@PathVariable Long id) {
-        return orderService.findById(id);
+    public ResponseEntity<Order> findById(@PathVariable("id") Long orderId) {
+        Order order = orderService.findById(orderId);
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order createdOrder = orderService.createOrder(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {        
-        return orderService.updateOrder(id, order);
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Long orderId, @RequestBody Order order) {        
+        Order updatedOrder = orderService.updateOrder(orderId, order);
+        return ResponseEntity.ok(updatedOrder);
     }
         
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping("/id/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long orderId) {
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.noContent().build();
     }
 }

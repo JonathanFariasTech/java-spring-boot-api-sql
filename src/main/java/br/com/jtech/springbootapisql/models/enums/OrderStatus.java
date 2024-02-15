@@ -17,16 +17,16 @@ public enum OrderStatus {
         this.status = status;
     }
 
-    public Integer getValue() {
+    public Integer getCode() {
         return this.status;
     }
 
     public static OrderStatus valueOf(int code) {
-        for (OrderStatus value : OrderStatus.values()) {
-            if (value.getValue() == code) {
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("Invalid OrderStatus code");
+    	for (OrderStatus value : OrderStatus.values()) {
+    		if(value.getCode() == code) {
+    			return value;
+    		}
+    	}
+    	throw new IllegalArgumentException("Invalid OrderStatus code");
     }
 }
