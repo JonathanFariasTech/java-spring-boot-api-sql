@@ -2,8 +2,10 @@ package br.com.jtech.springbootapisql.controllers;
 
 import java.util.List;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,27 +32,31 @@ public class ProductController {
 		return productService.findAll();
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/id/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Product findById(@PathVariable Long id) {
-		return productService.findById(id);
+	public ResponseEntity<Product> findById(@PathVariable Long id) {
+		Product prod = productService.findById(id);
+		return ResponseEntity.ok(prod);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product createProduct(@RequestBody Product product) {
-		return productService.createProduct(product);
+	public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+		Product crProd = productService.createProduct(product);
+		return ResponseEntity.status(HttpStatus.CREATED).body(crProd);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/id/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-		return productService.updateProduct(id, product);
+	public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+		Product updProd = productService.updateProduct(id, product);
+		return ResponseEntity.ok(updProd);
 	}
 	
-	@DeleteMapping("/{îd}")
+	@DeleteMapping("/id/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteProduct(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 		productService.deleteProduct(id);
+		return ResponseEntity.noContent().build();
 	}
 }
